@@ -1,25 +1,23 @@
 import React, {Component} from 'react';
+import {dataToJS} from 'react-redux-firebase'
 
 class BaseComponent extends Component {
 
     getString = (res, ...args) => {
-        /*
-         const publicModel = this.getPublicModel();
-         const currentLanguage = publicModel.get('currentLanguage');
-         const strings = publicModel.getIn(['resources', 'strings']).toJS();
+        const lg = dataToJS(this.props.store.firebase, '/public/currentLanguage');
+        const resources = dataToJS(this.props.store.firebase, '/public/resources/strings');
 
-         if(strings && strings[res]) {
-         const s = strings[res][currentLanguage || 'default'] || strings[res]['default'];
-         return s.split(/\$\d/).reduce((a, b, i) => a + args[i - 1] + b);
-         }
-         */
-
-        return res;
+        const s = (lg && resources && resources[res])? (resources[res][lg] || resources[res]['default']): res;
+        return s.split(/\$\d/).reduce((a, b, i) => a + args[i - 1] + b);
     }
 
     getUrls = () => {
         const {store: {route}} = this.props;
-        return route? route.get('urls').toJS(): null;
+        return route ? route.get('urls').toJS() : null;
+    }
+
+    isAuth = () => {
+        return !!dataToJS(this.props.store.firebase, '/auth');
     }
 
     render() {
@@ -27,7 +25,6 @@ class BaseComponent extends Component {
     };
 
 }
-;
 
 export default BaseComponent;
 

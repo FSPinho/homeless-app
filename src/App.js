@@ -6,22 +6,28 @@ import {reactReduxFirebase, firebaseStateReducer} from 'react-redux-firebase';
 import {syncHistoryWithStore, routerReducer, routerMiddleware} from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
 import reducers from 'api/reducers';
 import sagas from 'api/sagas';
 import {actions} from 'api/actions';
 import {createUrls} from 'components/routers/util.js';
 import Router from 'components/routers/Router';
 
+import BaseLayout from 'components/BaseLayout'
+import BaseAuthLayout from 'components/auth/BaseLayout'
+import Login from 'components/auth/Login';
+
 const SYSTEM_ROUTES = {
-    component: null,
+    component: BaseLayout,
     urls: {
         auth: {
-            component: null,
+            component: BaseAuthLayout,
             urls: {
                 login: {
                     navAction: true,
                     alias: 'login',
-                    component: null
+                    component: Login
                 },
                 register: {
                     navAction: true,
@@ -37,6 +43,8 @@ class App extends Component {
 
     constructor(props) {
         super(props);
+
+        injectTapEventPlugin();
 
         const sagaMiddleware = createSagaMiddleware({
             onError: (error) => { },
