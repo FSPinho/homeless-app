@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Router, Redirect} from 'react-router';
+import {ConnectedRouter} from 'react-router-redux';
 
 import BaseComponent from 'components/BaseComponent';
 import {actions, dispatchers} from 'api/actions';
@@ -12,9 +12,9 @@ class HomelessAppRouter extends BaseComponent {
         const routeConfig = this.getRouteConfig();
 
         return (
-            <Router history={this.props.history}>
+            <ConnectedRouter history={this.props.history}>
                 <Route {...routeConfig} />
-            </Router>
+            </ConnectedRouter>
         )
     }
 }

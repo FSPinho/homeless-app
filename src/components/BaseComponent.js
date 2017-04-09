@@ -16,8 +16,12 @@ class BaseComponent extends Component {
         return route ? route.get('routeConfig').toJS() : null;
     }
 
+    getAuthError = () => {
+        return this.props.store.firebase.get('authError');
+    }
+
     isAuth = () => {
-        return !!dataToJS(this.props.store.firebase, '/auth');
+        return !!dataToJS(this.props.store.firebase, 'auth');
     }
 
     render() {

@@ -13,7 +13,7 @@ it('Verify initial state', () => {
 it('Verify createRoutes reducer', () => {
 
     expect(
-        route(initialState, {type: actions.route.do.createRoutes, payload: {a: 'b'}})
-    ).toEqual(initialState.mergeDeep({urls: {a: 'b'}}));
+        route(initialState, {type: actions.route.do.createRouteConfig, payload: {a: 'b'}})
+    ).toEqual(initialState.mergeDeep({routeConfig: {a: 'b'}}));
 
 });

@@ -6,6 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import PersonIcon from 'material-ui/svg-icons/social/person';
+import {firebaseConnect} from 'react-redux-firebase';
+import * as colors from 'material-ui/styles/colors';
 
 import BaseComponent from 'components/BaseComponent';
 import Link from 'components/Link';
@@ -13,14 +15,48 @@ import {actions, dispatchers} from 'api/actions';
 
 class Login extends BaseComponent {
 
+    state = {
+        canSubmit: false
+    }
+
+    submit = model => {
+        this.props.firebase.login(model)
+    }
+
+    enableSubmit = () => {
+        this.setState({
+            canSubmit: true
+        });
+    }
+
+    disableSubmit = () => {
+        this.setState({
+            canSubmit: false
+        });
+    }
+
     render() {
 
         const fieldStyle = {
             marginBottom: 20
         };
 
+        const errorMessage = this.getAuthError() ? this.getAuthError().message : '';
+
+        const error = errorMessage ? (
+            <p style={{
+                color: colors.red500,
+                fontWeight: 200,
+                textAlign: 'justify'
+            }}>
+
+                {errorMessage}
+
+            </p>
+        ): null;
+
         return (
-            <Form>
+            <Form onValidSubmit={this.submit} onValid={this.enableSubmit} onInvalid={this.disableSubmit}>
 
                 <div style={{
                     padding: 20,
@@ -38,9 +74,11 @@ class Login extends BaseComponent {
 
                 <div style={{padding: 20}}>
 
+                    {error}
+
                     < FormsyText
-                        name="username"
-                        floatingLabelText={this.getString('fieldUsernameLabel')
+                        name="email"
+                        floatingLabelText={this.getString('fieldEmailLabel')
                         }
                         floatingLabelFixed={true}
                         validationErrors={
@@ -79,7 +117,8 @@ class Login extends BaseComponent {
                         style={{
                             ...fieldStyle,
                             height: 52
-                        }}/>
+                        }}
+                    />
 
                     <Link href="route-register">
                         <FlatButton
@@ -98,5 +137,6 @@ class Login extends BaseComponent {
     }
 }
 
-const themeWrapper = muiThemeable()(Login);
+const firebaseWrapper = firebaseConnect()(Login)
+const themeWrapper = muiThemeable()(firebaseWrapper);
 export default connect((store) => ({store}), dispatchers)(themeWrapper);

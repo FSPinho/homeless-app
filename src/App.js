@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {createBrowserHistory} from 'history';
+import createHistory from 'history/createBrowserHistory';
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import {reactReduxFirebase, firebaseStateReducer} from 'react-redux-firebase';
-import {syncHistoryWithStore, routerReducer, routerMiddleware} from 'react-router-redux';
+import {routerReducer, routerMiddleware} from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 
 import reducers from 'api/reducers';
@@ -28,8 +28,8 @@ class App extends Component {
         });
 
         const rootReducer = combineReducers({
-            firebase: firebaseStateReducer,
             ...reducers,
+            firebase: firebaseStateReducer,
             routing: routerReducer,
         });
 
@@ -42,10 +42,10 @@ class App extends Component {
             messagingSenderId: '428503372541'
         };
 
-        const browserHistory = createBrowserHistory();
+        this.history = createHistory();
 
         const middlewares = [
-            routerMiddleware(browserHistory),
+            routerMiddleware(this.history),
             sagaMiddleware,
         ];
 
@@ -55,7 +55,6 @@ class App extends Component {
         )(createStore);
 
         this.store = createStoreWithFirebase(rootReducer, {})
-        this.history = syncHistoryWithStore(browserHistory, this.store);
 
         sagaMiddleware.run(sagas);
     }
