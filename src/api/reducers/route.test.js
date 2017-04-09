@@ -8,6 +8,10 @@ it('Verify initial state', () => {
         route(undefined, {})
     ).toEqual(initialState);
 
+});
+
+it('Verify createRoutes reducer', () => {
+
     expect(
         route(initialState, {type: actions.route.do.createRoutes, payload: {a: 'b'}})
     ).toEqual(initialState.mergeDeep({urls: {a: 'b'}}));

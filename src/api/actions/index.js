@@ -7,7 +7,8 @@ const general = {
 
 const ROUTE = 'ROUTE';
 const route = {
-    createRoutes: join(ROUTE, 'CREATE_ROUTES'),
+    createRouteConfig: join(ROUTE, 'CREATE_ROUTE_CONFIG'),
+    navigate: join(ROUTE, 'NAVIGATE'),
 };
 
 export const actions = {

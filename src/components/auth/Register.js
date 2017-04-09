@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import {Form} from 'formsy-react';
 import {FormsyText} from 'formsy-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import PersonIcon from 'material-ui/svg-icons/social/person';
+import Paper from 'material-ui/Paper';
+import {fade} from 'material-ui/utils/colorManipulator';
 
 import BaseComponent from 'components/BaseComponent';
-import Link from 'components/Link';
 import {actions, dispatchers} from 'api/actions';
 
 class Login extends BaseComponent {
@@ -73,30 +73,24 @@ class Login extends BaseComponent {
 
                     < RaisedButton
                         type="submit"
-                        label={this.getString('buttonLogin')}
+                        label={this.getString('buttonLogin')
+                        }
                         secondary={true}
                         fullWidth={true}
-                        style={{
-                            ...fieldStyle,
-                            height: 52
-                        }}/>
-
-                    <Link href="route-register">
-                        <FlatButton
-                            label={this.getString('buttonRegister')}
-                            secondary={true}
-                            fullWidth={true}
-                        />
-                    </Link>
-
-
+                        style={
+                            {
+                                ...
+                                    fieldStyle,
+                                height: 52
+                            }
+                        }/>
                 </div>
 
             </
                 Form >
-        )
+    )
     }
-}
+    }
 
-const themeWrapper = muiThemeable()(Login);
-export default connect((store) => ({store}), dispatchers)(themeWrapper);
+    const themeWrapper = muiThemeable()(Login);
+    export default connect((store) => ({store}), dispatchers)(themeWrapper);

@@ -1,24 +1,21 @@
-const _baseUrl = {
-    alias:     '',
-    path:      '/',
-    urls:      {},
-    private:   false,
-    navAction:    false,
-    navLink:   false,
-    component: null,
+const _baseRoute = {
+    alias: '',
+    path: '',
+    redirectToFirstChild: false,
+    navLink: false,
+    private: false,
+    component: 'div',
+    routes: {},
 };
 
-const _createUrl = (...args) => (
+export const join = (...args) => (
     args.reduce((a, b) => (
         a + '/' + b
     )).replace(/\/+/g, '/')
 );
 
-const _createUrls = (url, path = '/') => {
-    const _url = { ..._baseUrl, ...url, path }
-    Object.keys(_url.urls).map(k => _url.urls[k] = _createUrls(_url.urls[k], _createUrl(_url.path, k)));
-    return _url;
+export const createRoutes = (route, path = '/') => {
+    const _route = { ..._baseRoute, ...route, path }
+    Object.keys(_route.routes).map(k => _route.routes[k] = createRoutes(_route.routes[k], join(_route.path, k)));
+    return _route;
 }
-
-export const createUrl = _createUrl;
-export const createUrls = _createUrls;

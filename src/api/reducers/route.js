@@ -7,13 +7,13 @@ export const initialState = fromJS({
         nextUrl: '',
     },
 
-    urls: {}
+    routeConfig: {}
 });
 
 export default (state = initialState, action) => {
 
-    if (action.type === actions.route.do.createRoutes) {
-        return state.mergeDeepIn(['urls'], action.payload);
+    if (action.type === actions.route.do.createRouteConfig) {
+        return state.mergeDeepIn(['routeConfig'], action.payload);
     }
 
     return state;

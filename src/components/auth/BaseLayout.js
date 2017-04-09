@@ -12,14 +12,8 @@ class BaseLayout extends BaseComponent {
 
     render() {
         return (
-            <div style={{
-                backgroundColor: colors.blueGrey50,
+            <div>
 
-                position: 'absolute',
-                top: 0, bottom: 0,
-                left: 0, right: 0,
-                overflow: 'auto'
-            }}>
                 <Toolbar hideActions={true}/>
 
                 <div
@@ -29,7 +23,7 @@ class BaseLayout extends BaseComponent {
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                    <Paper>
+                    <Paper style={{ overflow: 'hidden' }}>
                         {this.props.children}
                     </Paper>
                 </div>

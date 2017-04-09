@@ -6,45 +6,22 @@ import {reactReduxFirebase, firebaseStateReducer} from 'react-redux-firebase';
 import {syncHistoryWithStore, routerReducer, routerMiddleware} from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
-
 import reducers from 'api/reducers';
 import sagas from 'api/sagas';
 import {actions} from 'api/actions';
-import {createUrls} from 'components/routers/util.js';
+import {createRoutes} from 'components/routers/util';
 import Router from 'components/routers/Router';
 
 import BaseLayout from 'components/BaseLayout'
 import BaseAuthLayout from 'components/auth/BaseLayout'
-import Login from 'components/auth/Login';
+import Login from 'components/auth/Login'
+import Register from 'components/auth/Register'
 
-const SYSTEM_ROUTES = {
-    component: BaseLayout,
-    urls: {
-        auth: {
-            component: BaseAuthLayout,
-            urls: {
-                login: {
-                    navAction: true,
-                    alias: 'login',
-                    component: Login
-                },
-                register: {
-                    navAction: true,
-                    alias: 'register',
-                    component: null
-                }
-            }
-        }
-    }
-};
 
 class App extends Component {
 
     constructor(props) {
         super(props);
-
-        injectTapEventPlugin();
 
         const sagaMiddleware = createSagaMiddleware({
             onError: (error) => { },
@@ -84,9 +61,30 @@ class App extends Component {
     }
 
     componentWillMount() {
+        const routeConfig = createRoutes({
+            alias: 'route-base',
+            component: BaseLayout,
+            routes: {
+                auth: {
+                    alias: 'route-auth',
+                    component: BaseAuthLayout,
+                    routes: {
+                        login: {
+                            alias: 'route-login',
+                            component: Login
+                        },
+                        register: {
+                            alias: 'route-register',
+                            component: Register
+                        }
+                    }
+                },
+            }
+        });
+
         this.store.dispatch({
-            type: actions.route.do.createRoutes,
-            payload: createUrls(SYSTEM_ROUTES)
+            type: actions.route.do.createRouteConfig,
+            payload: routeConfig
         });
     }
 

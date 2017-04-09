@@ -9,4 +9,4 @@ it('Renders App without crashing', () => {
 it('Firebase defined', () => {
     const wrapper = mount(<App/>);
     expect(wrapper.instance().store.firebase).toBeDefined();
-})
+});

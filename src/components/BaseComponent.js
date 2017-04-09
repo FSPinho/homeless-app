@@ -11,9 +11,9 @@ class BaseComponent extends Component {
         return s.split(/\$\d/).reduce((a, b, i) => a + args[i - 1] + b);
     }
 
-    getUrls = () => {
+    getRouteConfig = () => {
         const {store: {route}} = this.props;
-        return route ? route.get('urls').toJS() : null;
+        return route ? route.get('routeConfig').toJS() : null;
     }
 
     isAuth = () => {

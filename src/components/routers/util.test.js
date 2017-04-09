@@ -1,56 +1,42 @@
-import {createUrl, createUrls}from './util.js';
+import {createRoutes, join} from './util';
 
-it('Url creator', () => {
-    expect(createUrl('')).toBe('');
-    expect(createUrl('/')).toBe('/');
-    expect(createUrl('homless-app/', '//home')).toBe('homless-app/home');
+it('Verify if methods are defined', () => {
+    expect(createRoutes).toBeDefined();
+    expect(join).toBeDefined();
+});
 
-    expect(createUrls({
-        component: null,
-        urls: {
-            auth: {
-                urls: {
-                    login: { navAction: true },
-                    register: { alias: 'register' }
+it('Verify if method join is working', () => {
+    expect(join('a', 'b')).toBe('a/b');
+    expect(join('a///', '///b')).toBe('a/b');
+});
+
+it('Verify if method createRoutes is working', () => {
+    expect(
+        createRoutes({
+            alias: 'route-a',
+            routes: {
+                b: {
+                    alias: 'route-b'
                 }
             }
-        }
-    })).toEqual({
-        alias: '',
-        navAction: false,
+        })
+    ).toEqual({
+        alias: 'route-a',
+        path: '/',
+        redirectToFirstChild: false,
         navLink: false,
         private: false,
-        component: null,
-        path: '/',
-        urls: {
-            auth: {
-                alias: '',
-                navAction: false,
+        component: 'div',
+        routes: {
+            b: {
+                alias: 'route-b',
+                path: '/b',
+                redirectToFirstChild: false,
                 navLink: false,
                 private: false,
-                component: null,
-                path: '/auth',
-                urls: {
-                    login: {
-                        alias: '',
-                        navAction: true,
-                        navLink: false,
-                        private: false,
-                        component: null,
-                        path: '/auth/login',
-                        urls: {}
-                    },
-                    register: {
-                        alias: 'register',
-                        navAction: false,
-                        navLink: false,
-                        private: false,
-                        component: null,
-                        path: '/auth/register',
-                        urls: {}
-                    }
-                }
+                component: 'div',
+                routes: {},
             }
-        }
+        },
     });
 });
